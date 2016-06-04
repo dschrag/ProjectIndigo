@@ -104,7 +104,7 @@
         xmlhttp.send(null);
     }
     function createBikePins(map, stations) {
-        console.log(JSON.stringify(stations));
+        //console.log(JSON.stringify(stations));
         var contentString="";
 
         var infowindow;
@@ -113,14 +113,7 @@
         });
 
         for (i = 0; i < 27; i++) {
-            contentString =
-                '<div id="content">'+
-                '<div id="siteNotice">'+'</div>'+
-                '<h1 id="firstHeading" class="firstHeading">'+i+' '+stations.stations[i].name+'</h1>'+
-                '<div id="bodyContent">'+
-                '<p><b>'+stations.stations[i].name+'</b>'
-            '</div>'+
-            '</div>';
+
 
             var myLatLng = {lat: stations.stations[i].lat, lng: stations.stations[i].lon};
             var marker = new google.maps.Marker({
@@ -129,10 +122,21 @@
                 title: stations.stations[i].name
             });
 
-            marker.addListener('click', function() {
-                infowindow.setContent(contentString);
-                infowindow.open(map, this);
-            });
+						google.maps.event.addListener(marker, 'click', function () {
+						   // do something with this marker ...
+							 console.log(this.getTitle());
+							 contentString =
+	                 '<div id="content">'+
+	                 '<div id="siteNotice">'+'</div>'+
+	                 '<h1 id="firstHeading" class="firstHeading">'+i+' '+this.getTitle()+'</h1>'+
+	                 '<div id="bodyContent">'+
+	                 '<p><b>'+this.getTitle()+'</b>'
+	             '</div>'+
+	             '</div>';
+							 infowindow.setContent(contentString);
+							 infowindow.open(map, this);
+						});
+
         }
     }
 </script>
