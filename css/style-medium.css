@@ -92,7 +92,7 @@
 		}
 
 		#navButton .toggle:before {
-			background: rgba(35, 113, 173, 1);
+			background: rgba(0, 46, 97, 1);
 			border-radius: 0px;
 			color: #fff;
 			display: block;
@@ -108,7 +108,7 @@
 		}
 
 	#navPanel {
-		background: rgba(35, 113, 173, 1);
+		background: rgba(0, 46, 97, 1);
 		color: #fff;
 	}
 
