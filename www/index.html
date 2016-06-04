@@ -24,11 +24,21 @@
       // locate you.
 
       function initMap() {
+        //getBikeStations();
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 39.76593, lng: -86.16216},
           zoom: 15
         });
+        var stats = getBikeStations(map);
+        //console.log(stats);
+
         var infoWindow = new google.maps.InfoWindow({map: map});
+        // var myLatLng = {lat: 39.765, lng: -86.162};
+        // var marker = new google.maps.Marker({
+        //    position: myLatLng,
+        //    map: map,
+        //    title: 'Hello World!'
+        //  });
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -56,6 +66,37 @@
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
       }
+
+      function getBikeStations(map) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('GET', 'https://gbfs.bcycle.com/bcycle_pacersbikeshare/station_information.json', true);
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4) {
+                if(xmlhttp.status == 200) {
+                    var obj = JSON.parse(xmlhttp.responseText);
+                  //  console.log(obj.data);
+                    createBikePins(map, obj.data);
+                    return obj.data;
+                 }
+            }
+        };
+        xmlhttp.send(null);
+      }
+
+      function createBikePins(map, stations) {
+        console.log(JSON.stringify(stations));
+
+        for (i = 0; i < 27; i++) {
+          var myLatLng = {lat: stations.stations[i].lat, lng: stations.stations[i].lon};
+          var marker = new google.maps.Marker({
+             position: myLatLng,
+             map: map,
+             title: stations.stations[i].name
+           });
+        }
+
+      }
+
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLQhYCMXm-mF8RcIVuwt0RMB3XaOqGXWM&callback=initMap">
