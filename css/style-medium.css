@@ -92,22 +92,23 @@
 		}
 
 		#navButton .toggle:before {
-			background: rgba(144, 144, 144, 0.65);
-			border-radius: 4px;
+			background: rgba(35, 113, 173, 1);
+			border-radius: 0px;
 			color: #fff;
 			display: block;
 			font-size: 16px;
-			height: 2.25em;
-			left: 0.5em;
+			height: 2.5em;
+			left: 0em;
 			line-height: 2.25em;
 			position: absolute;
-			text-align: center;
-			top: 0.5em;
-			width: 3.5em;
+			text-align: left;
+			top: 0em;
+			padding-left: 1.5em;
+			width: 500px;
 		}
 
 	#navPanel {
-		background: #222;
+		background: rgba(35, 113, 173, 1);
 		color: #fff;
 	}
 
@@ -141,3 +142,11 @@
 			#navPanel nav .button {
 				width: 100%;
 			}
+#profile{
+	position:absolute;
+	padding-left: 4.5em;
+}
+
+#profile p {
+	font-size: 0.7em;
+}
