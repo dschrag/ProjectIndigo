@@ -79,7 +79,7 @@
             </li>
             <li><a href="index.html">BikeShare</a></li>
             <li><a href="bus.html">IndyGo</a></li>
-            <li><a href="elements.html">Payment</a></li>
+            <li><a href="login.html">Payment</a></li>
         </ul>
     </nav>
 </header>
@@ -180,7 +180,7 @@
                 if (status === google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(response);
                 } else {
-                    window.alert('Directions request failed due to ' + status);
+                    window.alert('Could not find a biking route. Error: ' + status);
                 }
             });
         }
@@ -264,10 +264,11 @@
                 contentString =
                         '<div id="content">'+
                         '<div id="siteNotice">'+'</div>'+
-                        '<h1 id="firstHeading" class="firstHeading">'+i+' '+this.getTitle()+'</h1>'+
+                        '<h1 id="firstHeading" class="firstHeading">'+this.getTitle()+'</h1>'+
                         '<div id="bodyContent">'+
                         '<p><b>'+"Bikes Available: " + this.bikes_avail+'</b>' +
-                        '<p><b>'+"Docks Available: " + this.docks_avail+'</b>'
+                        '<p><b>'+"Docks Available: " + this.docks_avail+'</b>' +
+                        '<p><b><a href="https://www.pacersbikeshare.org/top-nav-pages/join-now">Get a Bike</a></b>'
                 '</div>'+
                 '</div>';
                 infowindow.setContent(contentString);
