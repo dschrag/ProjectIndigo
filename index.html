@@ -114,6 +114,8 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 	// parameter when you first load the API. For example:
 	// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
+	var station_array = [];
+
 	function initMap() {
 		var origin_place_id = null;
 		var destination_place_id = null;
@@ -247,6 +249,47 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 				// Search for current location placeId
 				geocodeLatLng(geocoder, map, infowindow, pos);
 
+				var closest = 99999;
+				var closeststation = 0;
+				for (var i = 0; i < 10; i++) {
+
+					directionsService.route({
+						origin: pos,
+						destination: station_array[i].getPosition(),
+						travelMode: travel_mode
+					}, function(response, status) {
+						if (status === google.maps.DirectionsStatus.OK) {
+							console.log(response);
+							if (response.routes[0].legs[0].distance.value < closest) {
+								closest = response.routes[0].legs[0].distance.value;
+								closeststation = i;
+							}
+							console.log(response.routes[0].legs[0].distance.value);
+							//directionsDisplay.setDirections(response);
+						} else {
+							window.alert('Directions request failed due to ' + status);
+						}
+					});
+
+					directionsService.route({
+						origin: pos,
+						destination: station_array[closeststation].getPosition(),
+						travelMode: travel_mode
+					}, function(response, status) {
+						if (status === google.maps.DirectionsStatus.OK) {
+							directionsDisplay.setDirections(response);
+						} else {
+							window.alert('Directions request failed due to ' + status);
+						}
+					});
+
+
+
+						console.log(i);
+
+				}
+
+
 			}, function() {
 				handleLocationError(true, infoWindow, map.getCenter());
 			});
@@ -300,6 +343,8 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 				bikes_avail: 0,
 				docks_avail: 0
 			});
+
+			station_array[i] = marker;
 
 			google.maps.event.addListener(marker, 'click', function () {
 				// do something with this marker ...
