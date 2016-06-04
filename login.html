@@ -8,8 +8,6 @@
 <head>
     <title>Login</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Asian, Student, Union, United, ASU, IUPUI, Heritage, Month, Contact Us, Contact" />
-    <meta name="description" content="If you would like to partner with the ASU for an event then please contact us! We are always looking for new partnerships. Email us and describe the event and how it would benefit the campus." />
     <!--[if lte IE 8]>
     <script src="js/html5shiv.js"></script><![endif]-->
     <script src="js/jquery.min.js"></script>
@@ -21,11 +19,6 @@
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="css/style-xlarge.css" />
     </noscript>
-
-    <?php
-    //import in function file
-    require_once "functions.php";
-    ?>
 </head>
 <body class="landing">
 
@@ -34,8 +27,8 @@
     <nav id="nav">
         <ul>
             <li><a href="index.html">BikeShare</a></li>
-            <li><a href="generic.html">IndyGo</a></li>
-            <li><a href="elements.html">Payment</a></li>
+            <li><a href="bus.html">IndyGo</a></li>
+            <li><a href="login.html">Payment</a></li>
         </ul>
     </nav>
 </header>
@@ -46,12 +39,12 @@
     <div class="container 75%">
         <div>
             <h2>
-                Login<br><br>
+                <br>Login<br><br>
             </h2>
             <h3 style="color: red;"><?php if (isset($_GET["errs"])){echo $_GET["errs"];}?></h3>
             <br />
             <blockquote>
-                <form action="recordApplication.php" method="post">
+                <form action="pay.html" method="post">
                     <div class="6u 12u$(xsmall)">
                         <input type="text" name="username" id="username" placeholder="Username">
                         <br>
