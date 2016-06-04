@@ -88,6 +88,7 @@
                 'Error: The Geolocation service failed.' :
                 'Error: Your browser doesn\'t support geolocation.');
     }
+
     function getBikeStations(map) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', 'https://gbfs.bcycle.com/bcycle_pacersbikeshare/station_information.json', true);
@@ -103,6 +104,7 @@
         };
         xmlhttp.send(null);
     }
+
     function createBikePins(map, stations) {
         //console.log(JSON.stringify(stations));
         var contentString="";
@@ -119,18 +121,24 @@
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
-                title: stations.stations[i].name
+                title: stations.stations[i].name,
+								station_id: stations.stations[i].station_id,
+								bikes_avail: 0,
+								docks_avail: 0
             });
 
 						google.maps.event.addListener(marker, 'click', function () {
 						   // do something with this marker ...
 							 console.log(this.getTitle());
+							 getBikeStatus(this);
+
 							 contentString =
 	                 '<div id="content">'+
 	                 '<div id="siteNotice">'+'</div>'+
 	                 '<h1 id="firstHeading" class="firstHeading">'+i+' '+this.getTitle()+'</h1>'+
 	                 '<div id="bodyContent">'+
-	                 '<p><b>'+this.getTitle()+'</b>'
+	                 '<p><b>'+"Bikes Available: " + this.bikes_avail+'</b>' +
+									 '<p><b>'+"Docks Available: " + this.docks_avail+'</b>'
 	             '</div>'+
 	             '</div>';
 							 infowindow.setContent(contentString);
@@ -139,6 +147,26 @@
 
         }
     }
+
+		function getBikeStatus(marker) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open('GET', 'https://gbfs.bcycle.com/bcycle_pacersbikeshare/station_status.json', false);
+			xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4) {
+							if(xmlhttp.status == 200) {
+									var obj = JSON.parse(xmlhttp.responseText);
+									var bikestatus;
+									for (var i = 0; i < 27; i++) {
+											if (obj.data.stations[i].station_id === marker.station_id) {
+												marker.bikes_avail = obj.data.stations[i].num_bikes_available;
+												marker.docks_avail = obj.data.stations[i].num_docks_available;
+											}
+									}
+							}
+					}
+			};
+			xmlhttp.send(null);
+		}
 
 </script>
 <script async defer
