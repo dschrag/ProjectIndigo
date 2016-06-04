@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCv7heKIz21TmmrLtPYMqtY1Izg1XtHTx8&sensor=false"> </script>
+    <script>
+
+    var map;
+    var marker;
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    function onDeviceReady() {
+	navigator.geolocation.getCurrentPosition(setupMap, onError);
+        // Throw an error if no update is received every 30 seconds
+    }
+
+
+function initialize() {
+  var mapOptions = {
+    zoom: 17,
+    center: new google.maps.LatLng(39.774527, -86.175525),
+    mapTypeId: google.maps.MapTypeId.SATTILITE
+  };
+
+  var box;
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+var myLatlng = new google.maps.LatLng(39.774014, -86.174228);
+
+  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">Gift Box</h1>'+
+      '<div id="bodyContent">'+
+      '<p>From:Denver\n To:CSCI N300 </p>'+
+      '</div>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+      content: contentString
+  });
+
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'Gift Box'
+  });
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map,marker);
+  });
+
+  var boxCoords = [
+    new google.maps.LatLng(39.774540, -86.174883),
+    new google.maps.LatLng(39.774540, -86.173606),
+    new google.maps.LatLng(39.773476, -86.173606),
+    new google.maps.LatLng(39.773476, -86.174883)
+  ];
+
+  box = new google.maps.Polygon({
+    paths: boxCoords,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 3,
+    fillColor: '#FF0000',
+    fillOpacity: 0.8
+  });
+
+  box.setMap(map);
+
+var ribbon;
+
+  var ribCoords = [
+    new google.maps.LatLng(39.774540, -86.174608),
+    new google.maps.LatLng(39.774540, -86.174081),
+    new google.maps.LatLng(39.774086, -86.174071),
+    new google.maps.LatLng(39.774082, -86.173611),
+    new google.maps.LatLng(39.773851, -86.173611),
+    new google.maps.LatLng(39.773851, -86.174071),
+    new google.maps.LatLng(39.773484, -86.174081),
+    new google.maps.LatLng(39.773484, -86.174578),
+    new google.maps.LatLng(39.773851, -86.174578),
+    new google.maps.LatLng(39.773851, -86.174883),
+    new google.maps.LatLng(39.774086, -86.174883),
+    new google.maps.LatLng(39.774086, -86.174578)
+  ];
+
+  ribbon = new google.maps.Polygon({
+    paths: ribCoords,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 3,
+    fillColor: '#006400',
+    fillOpacity: 0.8
+  });
+
+  ribbon.setMap(map);
+
+  var bowCoordinates = [
+    new google.maps.LatLng(39.774551, -86.174604),
+    new google.maps.LatLng(39.774903, -86.174593),
+    new google.maps.LatLng(39.774696, -86.174336),
+    new google.maps.LatLng(39.774837, -86.174078),
+    new google.maps.LatLng(39.774548, -86.174089),
+    new google.maps.LatLng(39.774556, -86.174346),  
+    new google.maps.LatLng(39.774696, -86.174336),
+    new google.maps.LatLng(39.774556, -86.174346),    
+    new google.maps.LatLng(39.774551, -86.174604)
+  ];
+  var bowPath = new google.maps.Polyline({
+    path: bowCoordinates,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  bowPath.setMap(map);
+}
+    function setupMap(position) {
+	var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        map.setCenter(pos);
+
+        marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: "<div style = 'height:60px;width:200px'><b>Your location:</b><br />Latitude: " + position.coords.latitude + "<br />Longitude: " + position.coords.longitude + "</div"
+        });
+
+        google.maps.event.addListener(marker, "click", function (e) {
+            var infoWindow = new google.maps.InfoWindow();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(map, marker);
+        });
+
+        var options = { timeout: 30000 };
+        watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+    }
+
+
+    function onSuccess(position) {
+	var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        //map.setCenter(pos);
+	marker.setPosition(pos);
+
+    }
+
+    function onError(error) {
+            alert('code: '    + error.code    + '\n' +
+                  'message: ' + error.message + '\n');
+    }
+
+
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
