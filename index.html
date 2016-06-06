@@ -98,13 +98,12 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 
 <!-- One -->
 
-<section id="one" class="wrapper style1">
-	<div style="background-color: rgba(0,46,97, 100)">
+<section id="one">
+	<div style="background-color: rgba(0,46,97, 100); height: 100vh">
 		<input id="origin-input" class="controls" type="text" placeholder="Enter an origin location">
 
 		<input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
-		<br>
-		<div style="height: 100vh; width: 90%; margin: auto" class="row 200%" id="test">
+		<div style="height: 94%; width: 100%; bottom: 0; position: absolute; margin: auto" class="row 200%" id="map">
 		</div>
 	</div>
 </section>
@@ -120,7 +119,7 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 		var origin_place_id = null;
 		var destination_place_id = null;
 		var travel_mode = google.maps.TravelMode.BICYCLING;
-		var map = new google.maps.Map(document.getElementById('test'), {
+		var map = new google.maps.Map(document.getElementById('map'), {
 			mapTypeControl: false,
 			center: {lat: 39.76593, lng: -86.16216},
 			zoom: 13
