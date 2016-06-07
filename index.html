@@ -146,17 +146,9 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 				if (status === google.maps.GeocoderStatus.OK) {
 					if (results[1]) {
 						map.setZoom(14);
-						var marker = new google.maps.Marker({
-							position: pos,
-							map: map
-						});
-						//infowindow.setContent(results[1].formatted_address);
-						console.log(results);
+
 						origin_place_id = results[1].place_id;
 						origin_autocomplete.getPlace();
-
-						//	route(origin_place_id, destination_place_id, travel_mode,
-						//	directionsService, directionsDisplay);
 
 						document.getElementById('origin-input').value = results[1].formatted_address;
 						//infowindow.open(map, marker);
@@ -227,7 +219,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 		}
 
 		var stats = getBikeStations(map);
-		//console.log(stats);
 		var infoWindow = new google.maps.InfoWindow({map: map});
 		var geocoder = new google.maps.Geocoder;
 		var infowindow = new google.maps.InfoWindow;
@@ -259,8 +250,11 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 						closeststation = i;
 					}
 
+<<<<<<< HEAD
 					console.log(i);
 
+=======
+>>>>>>> origin/master
 				}
 
 				directionsService.route({
@@ -274,6 +268,8 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 						window.alert('Directions request failed due to ' + status);
 					}
 				});
+
+				station_array[closeststation].setVisible(false);
 
 
 			}, function() {
@@ -299,7 +295,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 			if (xmlhttp.readyState == 4) {
 				if(xmlhttp.status == 200) {
 					var obj = JSON.parse(xmlhttp.responseText);
-					//  console.log(obj.data);
 					createBikePins(map, obj.data);
 					return obj.data;
 				}
@@ -309,7 +304,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 	}
 
 	function createBikePins(map, stations) {
-		//console.log(JSON.stringify(stations));
 		var contentString = "";
 
 		var infowindow;
@@ -331,8 +325,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 			station_array[i] = marker;
 
 			google.maps.event.addListener(marker, 'click', function () {
-				// do something with this marker ...
-				console.log(this.getTitle());
 				getBikeStatus(this);
 
 				contentString =
