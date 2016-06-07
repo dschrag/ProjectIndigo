@@ -6,7 +6,7 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 -->
 <html>
 <head>
-	<title>Spatial by TEMPLATED</title>
+	<title>Operation Go Indy</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -130,16 +130,14 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 
 		var origin_input = document.getElementById('origin-input');
 		var destination_input = document.getElementById('destination-input');
-		var modes = document.getElementById('mode-selector');
 
 		map.controls[google.maps.ControlPosition.TOP_CENTER].push(origin_input);
 		map.controls[google.maps.ControlPosition.TOP_CENTER].push(destination_input);
-		map.controls[google.maps.ControlPosition.TOP_CENTER].push(modes);
 
 		var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
 		origin_autocomplete.bindTo('bounds', map);
-		var destination_autocomplete =
-				new google.maps.places.Autocomplete(destination_input);
+
+		var destination_autocomplete = new google.maps.places.Autocomplete(destination_input);
 		destination_autocomplete.bindTo('bounds', map);
 
 		function geocodeLatLng(geocoder, map, infowindow, pos) {
@@ -261,7 +259,7 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 						closeststation = i;
 					}
 
-						console.log(i);
+					console.log(i);
 
 				}
 
@@ -320,8 +318,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 		});
 
 		for (i = 0; i < 27; i++) {
-
-
 			var myLatLng = {lat: stations.stations[i].lat, lng: stations.stations[i].lon};
 			var marker = new google.maps.Marker({
 				position: myLatLng,
@@ -341,13 +337,13 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 
 				contentString =
 						'<div id="content">'+
-						'<div id="siteNotice">'+'</div>'+
+						'<div id="siteNotice"></div>'+
 						'<h1 id="firstHeading" class="firstHeading">'+this.getTitle()+'</h1>'+
 						'<div id="bodyContent">'+
-						'<p><b>'+"Bikes Available: " + this.bikes_avail+'</b>' +
-						'<p><b>'+"Docks Available: " + this.docks_avail+'</b>'
-				'</div>'+
-				'</div>';
+							'<p><b>'+"Bikes Available: " + this.bikes_avail+'</b>' +
+							'<p><b>'+"Docks Available: " + this.docks_avail+'</b>'+
+						'</div>'+
+						'</div>';
 				infowindow.setContent(contentString);
 				infowindow.open(map, this);
 			});
