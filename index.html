@@ -250,43 +250,32 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 
 				var closest = 99999;
 				var closeststation = 0;
-				for (var i = 0; i < 10; i++) {
+				for (var i = 0; i < station_array.length; i++) {
 
-					directionsService.route({
-						origin: pos,
-						destination: station_array[i].getPosition(),
-						travelMode: travel_mode
-					}, function(response, status) {
-						if (status === google.maps.DirectionsStatus.OK) {
-							console.log(response);
-							if (response.routes[0].legs[0].distance.value < closest) {
-								closest = response.routes[0].legs[0].distance.value;
-								closeststation = i;
-							}
-							console.log(response.routes[0].legs[0].distance.value);
-							//directionsDisplay.setDirections(response);
-						} else {
-							window.alert('Directions request failed due to ' + status);
-						}
-					});
+					var distance_lat = pos.lat - station_array[i].getPosition().lat();
+					var distance_lng = pos.lng - station_array[i].getPosition().lng();
+					var distance = Math.sqrt(distance_lat * distance_lat + distance_lng * distance_lng);
 
-					directionsService.route({
-						origin: pos,
-						destination: station_array[closeststation].getPosition(),
-						travelMode: travel_mode
-					}, function(response, status) {
-						if (status === google.maps.DirectionsStatus.OK) {
-							directionsDisplay.setDirections(response);
-						} else {
-							window.alert('Directions request failed due to ' + status);
-						}
-					});
-
-
+					if (distance < closest) {
+						closest = distance;
+						closeststation = i;
+					}
 
 						console.log(i);
 
 				}
+
+				directionsService.route({
+					origin: pos,
+					destination: station_array[closeststation].getPosition(),
+					travelMode: travel_mode
+				}, function(response, status) {
+					if (status === google.maps.DirectionsStatus.OK) {
+						directionsDisplay.setDirections(response);
+					} else {
+						window.alert('Directions request failed due to ' + status);
+					}
+				});
 
 
 			}, function() {
@@ -353,7 +342,7 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 				contentString =
 						'<div id="content">'+
 						'<div id="siteNotice">'+'</div>'+
-						'<h1 id="firstHeading" class="firstHeading">'+i+' '+this.getTitle()+'</h1>'+
+						'<h1 id="firstHeading" class="firstHeading">'+this.getTitle()+'</h1>'+
 						'<div id="bodyContent">'+
 						'<p><b>'+"Bikes Available: " + this.bikes_avail+'</b>' +
 						'<p><b>'+"Docks Available: " + this.docks_avail+'</b>'
