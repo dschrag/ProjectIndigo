@@ -95,17 +95,30 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 	</nav>
 </header>
 
-
 <!-- One -->
 
 <section id="one">
-	<div style="background-color: rgba(0,46,97, 100); height: 100vh">
+	<div id="mapContainer" style="background-color: rgba(0,46,97, 100); height: 100vh">
 		<input id="origin-input" class="controls" type="text" placeholder="Enter an origin location">
 
 		<input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
-		<div style="height: 94%; width: 100%; bottom: 0; position: absolute; margin: auto" class="row 200%" id="map">
+		<div style="height: 75%; width: 100%; top: 6%; position: absolute; margin: auto;" class="row 200%" id="map">
 		</div>
 	</div>
+    <div id="stationInfor">
+        <table>
+            <tr>
+                <td id = "tLeft1" class="tLeft1">11<br>Bikes</td>
+                <td id="infoBx" class="tRight" colspan="2" rowspan="2"><div class="tableTitle">[INSERT TITLE VAR]</div>[INSERT ADDRESS VAR]<br>[VAR] Miles Away<br><div class="buttons"><pre><span onclick="infoBoxDirections()">Directions</span>                            <span onclick="closeInfoBox()">Close</span></pre></div></td>
+            </tr>
+            <tr>
+                <td id ="tLeft2" class="tLeft2">12<br>Empty Docks</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section id="two">
 </section>
 
 <script>
@@ -249,12 +262,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 						closest = distance;
 						closeststation = i;
 					}
-
-<<<<<<< HEAD
-					console.log(i);
-
-=======
->>>>>>> origin/master
 				}
 
 				directionsService.route({
@@ -304,13 +311,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 	}
 
 	function createBikePins(map, stations) {
-		var contentString = "";
-
-		var infowindow;
-		infowindow = new google.maps.InfoWindow({
-			content: "holding..."
-		});
-
 		for (i = 0; i < 27; i++) {
 			var myLatLng = {lat: stations.stations[i].lat, lng: stations.stations[i].lon};
 			var marker = new google.maps.Marker({
@@ -326,18 +326,7 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 
 			google.maps.event.addListener(marker, 'click', function () {
 				getBikeStatus(this);
-
-				contentString =
-						'<div id="content">'+
-						'<div id="siteNotice"></div>'+
-						'<h1 id="firstHeading" class="firstHeading">'+this.getTitle()+'</h1>'+
-						'<div id="bodyContent">'+
-							'<p><b>'+"Bikes Available: " + this.bikes_avail+'</b>' +
-							'<p><b>'+"Docks Available: " + this.docks_avail+'</b>'+
-						'</div>'+
-						'</div>';
-				infowindow.setContent(contentString);
-				infowindow.open(map, this);
+                openInfoBox(this.getTitle(), this.getTitle(), this.getTitle(), this.bikes_avail, this.docks_avail);
 			});
 
 		}
@@ -363,9 +352,26 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 		xmlhttp.send(null);
 	}
 
+    function openInfoBox(title, addr, miles, bikes, docks) {
+        document.getElementById("mapContainer").style.height= '72vh';
+        document.getElementById("map").style.height= '66%';
+        document.getElementById("infoBx").innerHTML = "<div class='tableTitle'>"+title+"</div>"+addr+"<br>"+"#"+" Miles Away<br><div class='buttons'><pre><span onclick='infoBoxDirections()'>Directions</span>                            <span onclick='closeInfoBox()'>Close</span></pre></div>";
+        document.getElementById("tLeft1").innerHTML = bikes+"<br>Bikes";
+        document.getElementById("tLeft2").innerHTML = docks+"<br>Docks";
+    }
+
+    function closeInfoBox() {
+        document.getElementById("mapContainer").style.height= '100vh';
+        document.getElementById("map").style.height= '72%';
+    }
+
+    function infoBoxDirections() {
+
+    }
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLQhYCMXm-mF8RcIVuwt0RMB3XaOqGXWM&libraries=places&callback=initMap"
 		async defer></script>
 </body>
+
 </html>
